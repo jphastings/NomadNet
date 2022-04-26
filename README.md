@@ -53,6 +53,34 @@ You can install Nomad Network on Android using Termux, but there's a few more co
 
 For a native Android application with a graphical user interface, have a look at [Sideband](https://unsigned.io/sideband).
 
+### Using docker / running a daemon
+
+Nomad Network is automatically published as a docker image on Github Packages. Image tags are one of either `master` (for the latest release) or the version number (eg `0.1.7`) for the specified version number (as tagged in this git repo).
+
+
+```sh
+$ docker pull ghcr.io/markqvist/nomadnet:master
+
+# Print docker labels, to demonstrate the image has been retrieved
+$ docker inspect -f '{{json .Config.Labels}}' ghcr.io/markqvist/nomadnet:master | jq
+{
+  "org.opencontainers.image.created": "2022-04-27T06:01:55.894Z",
+  "org.opencontainers.image.description": "Communicate Freely",
+  "org.opencontainers.image.licenses": "GPL-3.0",
+  "org.opencontainers.image.revision": "59cffc4a9de0f276d2cc87537ff1316aed5f16dd",
+  "org.opencontainers.image.source": "https://github.com/markqvist/NomadNet",
+  "org.opencontainers.image.title": "NomadNet",
+  "org.opencontainers.image.url": "https://github.com/markqvist/NomadNet",
+  "org.opencontainers.image.version": "master"
+}
+
+# Run nomadnet interactively without installing it (with default config)
+$ docker run -it ghcr.io/markqvist/nomadnet:master
+
+# Run nomadnet as a daemon, using config stored on the host machine in specific directories
+$ docker run -d -v /local/path/nomadnetconfig/:/root/.nomadnetwork/ -v /local/path/reticulumconfig/:/root/.reticulum/:rw ghcr.io/markqvist/nomadnet:master
+```
+
 ## Help & Discussion
 
 For help requests, discussion, sharing ideas or anything else related to Nomad Network, please have a look at the [Nomad Network discussions pages](https://github.com/markqvist/Reticulum/discussions/categories/nomad-network).
